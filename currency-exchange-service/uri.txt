@@ -1,0 +1,47 @@
+Currency Exchange Service
+http://localhost:8000/currency-exchange/from/USD/to/INR
+
+Currency Conversion Service
+http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
+
+
+Eureka naming server
+http://localhost:8761
+
+API Gateway URL
+http://localhost:8765
+
+#checkign the eureka naming server http://localhost:8761 and copy application name ex:  CURRENCY-EXCHANGE and then endpoit
+#Ex: APIGatewayUrl/applicationName/EndPoint
+
+http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
+http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10
+
+#After enabling below properties in application.prop in api-gateway we can remove capital letter application name
+spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+
+http://localhost:8765/currency-exchange/currency-exchange/from/USD/to/INR
+http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/INR/quantity/10
+
+
+
+After providing custome Router Configuration in ApiGatewayconfiguration
+disable below properites and run the below url
+
+http://localhost:8765/currency-exchange/from/USD/to/INR
+http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10
+
+
+Run in below sequence:
+naming-server
+currency-exchange-service = port 8000
+currency-exchange-service = port 8001
+currency-conversion-service
+api-gateway
+
+
+--------
