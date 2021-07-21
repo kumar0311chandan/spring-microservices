@@ -3,6 +3,8 @@ package com.chandan.microservice.currencyconversionservice.controller;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -16,45 +18,45 @@ import com.chandan.microservice.currencyconversionservice.proxy.CurrencyExchange
 
 @RestController
 public class CurrencyConversionController {
-	
+
+	private Logger logger = LoggerFactory.getLogger(CurrencyConversionController.class);
+
 	@Autowired
 	Environment environment;
-	
+
 	@Autowired
 	CurrencyExchangeProxy currencyExchangeProxy;
-	
+
 	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
-	public CurrencyConversion calculateCurrencyConversion(
-			@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
-	
-	HashMap<String, String> uriVariables = new HashMap<>();
-	uriVariables.put("from", from);
-	uriVariables.put("to", to);
-	
-	ResponseEntity<CurrencyConversion> responseEntity =	new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", 
-			CurrencyConversion.class,uriVariables);
-	
-	CurrencyConversion currencyConversion = responseEntity.getBody();
-	currencyConversion.setQuantity(quantity);
-	currencyConversion.setTotalCalculatedAmout(quantity.multiply(currencyConversion.getConversionMultiple()));
-	
-	
-	return currencyConversion; 
-	
-	
+	public CurrencyConversion calculateCurrencyConversion(@PathVariable String from, @PathVariable String to,
+			@PathVariable BigDecimal quantity) {
+
+		logger.info("calculateCurrencyConversion called with {} to {}", from, to);
+
+		HashMap<String, String> uriVariables = new HashMap<>();
+		uriVariables.put("from", from);
+		uriVariables.put("to", to);
+
+		ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity(
+				"http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, uriVariables);
+
+		CurrencyConversion currencyConversion = responseEntity.getBody();
+		currencyConversion.setQuantity(quantity);
+		currencyConversion.setTotalCalculatedAmout(quantity.multiply(currencyConversion.getConversionMultiple()));
+
+		return currencyConversion;
+
 	}
-	
+
 	@GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
-	public CurrencyConversion calculateCurrencyConversionFeign(
-			@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
-	
-	CurrencyConversion currencyConversion =  currencyExchangeProxy.retrieveExchangeValue(from, to);
-	currencyConversion.setQuantity(quantity);
-	currencyConversion.setTotalCalculatedAmout(quantity.multiply(currencyConversion.getConversionMultiple()));
-	
-	
-	return currencyConversion; 
-	
-	
+	public CurrencyConversion calculateCurrencyConversionFeign(@PathVariable String from, @PathVariable String to,
+			@PathVariable BigDecimal quantity) {
+
+		CurrencyConversion currencyConversion = currencyExchangeProxy.retrieveExchangeValue(from, to);
+		currencyConversion.setQuantity(quantity);
+		currencyConversion.setTotalCalculatedAmout(quantity.multiply(currencyConversion.getConversionMultiple()));
+
+		return currencyConversion;
+
 	}
 }

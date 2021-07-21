@@ -28,6 +28,7 @@ http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/
 
 
 
+Request URL through Zuul API gateway
 After providing custome Router Configuration in ApiGatewayconfiguration
 disable below properites and run the below url
 
