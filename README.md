@@ -4,13 +4,13 @@
 
 - https://hub.docker.com/u/kumar0311chandan
 - Currency Exchange Service 
-	- umar0311chandan/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
+	- kumar0311chandan/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
 - Currency Conversion Service
-	- umar0311chandan/mmv2-currency-conversion-service:0.0.1-SNAPSHOT
+	- kumar0311chandan/mmv2-currency-conversion-service:0.0.1-SNAPSHOT
 - Eureka
-	- umar0311chandan/mmv2-naming-server:0.0.1-SNAPSHOT
+	- kumar0311chandan/mmv2-naming-server:0.0.1-SNAPSHOT
 - API GATEWAY
-	- umar0311chandan/mmv2-api-gateway:0.0.1-SNAPSHOT
+	- kumar0311chandan/mmv2-api-gateway:0.0.1-SNAPSHOT
 
 ## URLS
 
@@ -36,10 +36,10 @@
 #### Commands
 ```
 docker run -p 9411:9411 openzipkin/zipkin:2.23
-docker push docker.io/in28min/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
+docker push docker.io/kumar0311chandan/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
 docker-compose --version
 docker-compose up
-docker push in28min/mmv2-naming-server:0.0.1-SNAPSHOT
-docker push in28min/mmv2-currency-conversion-service:0.0.1-SNAPSHOT
-docker push in28min/mmv2-api-gateway:0.0.1-SNAPSHOT
+docker push kumar0311chandan/mmv2-naming-server:0.0.1-SNAPSHOT
+docker push kumar0311chandan/mmv2-currency-conversion-service:0.0.1-SNAPSHOT
+docker push kumar0311chandan/mmv2-api-gateway:0.0.1-SNAPSHOT
 watch -n 0.1 curl http://localhost:8000/sample-api
